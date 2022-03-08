@@ -10,19 +10,19 @@ print( as.integer(B[1, 'DateTime']) )
 print( B[1, 'DateTime'] < B[5, 'DateTime'] )
 print( c( B[1, 'DateTime'] , B[5, 'DateTime'] ) )
 print (
-  which ( B[, 'DateTime'] < as.POSIXct("2021-02-14 08:00:00 IST") &
-	  B[, 'DateTime'] > as.POSIXct("2021-02-07 08:00:00 IST" ) )
+  which ( B[, 'DateTime'] < as.POSIXct("2021-02-14 23:59:99 EST") &
+	  B[, 'DateTime'] > as.POSIXct("2021-02-07 00:00:00 EST" ) )
   )
 
 
 # analyze a time frame out of the power consumption data
-rng <- 1497:1507
+rng <- 816:1007
 
 # print the range of times in our slice
 print (B[rng, 'DateTime' ])
 
-C <- with(B, cbind( Demand.1, Demand.2, Demand.3, Demand.4, Demand.5, Demand.6,
-		    Demand.7 , Demand.8 , Demand.9 , Demand.10  ))
+C <- with(B, cbind( Net.generation.1, Net.generation.2, Net.generation.3, Net.generation.4,Net.generation.5, 
+                    Net.generation.6, Net.generation.7 , Net.generation.8 , Net.generation.9 , Net.generation.10  ))
 C <- C[rng, ]
 print (C)
 
@@ -38,10 +38,29 @@ LM <- list( Demand.1 = NA, Demand.2 = NA, Demand.3 = NA, Demand.4 = NA, Demand.5
             Demand.6 = NA, Demand.7 = NA, Demand.8 = NA, Demand.9 = NA, Demand.10 = NA )
 
 # create an empty plot
-plot(1, type="n", xlab="", ylab="", xlim = c(0,12), ylim=c(-2, 2))
+plot(1, type="n", xlab="", ylab="", xlim = c(0,191), ylim=c(-2, 2))
+
+
+DF <- data.frame(Time = rng - min(rng), Total.Net.Generation = NA)
+for( i in seq(191)){
+  DF[i,2] <- mean(C[ i,]) 
+}
+
+DF2 <- data.frame(Time = 1:7, Total.Net.Generation = NA)
+count <- 0
+for (i in seq(7)){
+  DF2[i,2] <- mean(DF[count:count+24,2])
+  count <- count +24  
+}
+
+norm.DF2 <- t( (t(DF2[,2]) - unlist(mean(DF2[,2]))) / unlist(sd(DF2[,2])) )
+print(norm.DF2)
+
+#----------------------------------------#
+
 
 # calculate means and stdev
-demands <- seq(10) # [ -c(1,4,8) ]
+demands <- seq(0,7) # [ -c(1,4,8) ]
 for ( i in demands ) {
   M[[ i ]] <- mean( C[ !is.na(C[, i]) ,i ] )
   S[[ i ]] <- sd( C[ !is.na(C[, i]), i ] )
@@ -51,7 +70,7 @@ for ( i in demands ) {
 norm.C <- t( (t(C) - unlist(M)) / unlist(S) )
 print(norm.C)
 
-demands <- seq(10)[ -c(1,4,5,7,10) ]
+demands <- seq(10)#[ -c(1,4,5,7,10) ]
 for ( i in demands ) {
    # rearrange in a new, temporary dataframe
    DF <- data.frame ( Time = rng - min(rng), Demand = norm.C[ , i ] )
