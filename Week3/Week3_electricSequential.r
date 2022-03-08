@@ -1,4 +1,4 @@
-A <- read.delim('electricity/table.tsv')
+A <- read.delim('Week3/table.tsv')
 A$DateTime <- as.POSIXct( A$megawatthours, tz = "EST", "%H:%M EST %m/%d/%Y" )
 summary(A)
 
@@ -10,8 +10,8 @@ print( as.integer(B[1, 'DateTime']) )
 print( B[1, 'DateTime'] < B[5, 'DateTime'] )
 print( c( B[1, 'DateTime'] , B[5, 'DateTime'] ) )
 print (
-  which ( B[, 'DateTime'] < as.POSIXct("2021-02-08 08:00:00 IST") &
-	  B[, 'DateTime'] > as.POSIXct("2021-01-30 08:00:00 IST" ) )
+  which ( B[, 'DateTime'] < as.POSIXct("2021-02-14 08:00:00 IST") &
+	  B[, 'DateTime'] > as.POSIXct("2021-02-07 08:00:00 IST" ) )
   )
 
 
@@ -74,7 +74,7 @@ a <- tot[1] / n
 b <- tot[2] / n
 
 # plot the mean regression line
-abline(a, b, col = 'black', lw = 4, lt = 2)
+abline(a, b, col = 'black', lw = 2, lt = 2)
 time.min <- format(B[rng, 'DateTime' ][1], "%H" )
 time.max <- format(B[rng, 'DateTime' ][length(rng)], "%H" )
 title(paste0("Normalized demand over " , time.min, '-', time.max) )
