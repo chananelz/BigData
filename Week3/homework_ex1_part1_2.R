@@ -35,20 +35,13 @@ netCube <- unique(netCube)
 
 head(netCube)
 
+
+
 netCube$avrege_gen <- c(1)
 
-print(netCube[i,12])
+print(netCube)
 
-for( i in seq(168)){
-  
-  netCube[i,12] <- mean(netCube[i,1:11]) 
-}
-
-#revenue_cube <-
-#  tapply(netCube$Total_gen,
-#         netCube[,c("time",'BPATNet','CISO_DF$CISONet','CPLE_DF$CPLENet','ERCO_DF$ERCONet','FPL_DF$FPLNet' ,'ISNE_DF$ISNENet','MISO_DF$MISONet','NYIS_DF$NYISNet','PACW_DF$PACWNet' )],
-#         FUN = mean(Total_gen) )
-
+netCube$avrege_gen <- rowMeans(netCube[,c('BPATNet','CISO_DF$CISONet','CPLE_DF$CPLENet','ERCO_DF$ERCONet','FPL_DF$FPLNet' ,'ISNE_DF$ISNENet','MISO_DF$MISONet','NYIS_DF$NYISNet','PACW_DF$PACWNet' )],na.rm = TRUE,dims = 1)
 
 
 plot(1, type="n", xlab="", ylab="", xlim = c(0,12), ylim=c(-2, 2))
