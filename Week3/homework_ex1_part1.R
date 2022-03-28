@@ -3,6 +3,8 @@ A$DateTime <- as.POSIXct( A$megawatthours, tz = "EST", "%H:%M EST %m/%d/%Y" )
 
 B <- A[ order(A$DateTime), ]
 
+mytabele = 
+
 
 
 # analyze a time frame out of the power consumption data
@@ -27,5 +29,9 @@ for (i in seq(7)){
   count <- count +24  
 }
 
+pdf(file = "Week3/ex1_A.pdf",   # The directory you want to save the file in
+    width = 5, # The width of the plot in inches
+    height = 4)
 plot(DF2 , type ='b', main = "mean daily power generation across the US")
+dev.off()
 

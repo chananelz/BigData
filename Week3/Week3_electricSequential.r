@@ -1,14 +1,14 @@
-A <- read.delim('Week3/table.tsv')
-A$DateTime <- as.POSIXct( A$megawatthours, tz = "EST", "%H:%M EST %m/%d/%Y" )
+A <- read.delim('Week3/table.tsv') # read file difult is by tab 
+A$DateTime <- as.POSIXct( A$megawatthours, tz = "EST", "%H:%M EST %m/%d/%Y" )#A  יצירת אובייקט זמן בתוך 
 summary(A)
 
-print(names(A))
+print(names(A)) # הדפסת שמות העמודות של הדאטא פריים שלי
 
-B <- A[ order(A$DateTime), ]
+B <- A[ order(A$DateTime), ] #  לפי זמנים  A  לסדר את השורות של 
 
-print( as.integer(B[1, 'DateTime']) )
+print( as.integer(B[1, 'DateTime']) ) # הפיכת זמן למספר
 print( B[1, 'DateTime'] < B[5, 'DateTime'] )
-print( c( B[1, 'DateTime'] , B[5, 'DateTime'] ) )
+print( c( B[1, 'DateTime'] , B[5, 'DateTime'] ) ) #יוצרת רשימה מאוסף פרמטרים C פונקצייה 
 print (
   which ( B[, 'DateTime'] < as.POSIXct("2021-02-14 23:59:99 EST") &
 	  B[, 'DateTime'] > as.POSIXct("2021-02-07 00:00:00 EST" ) )
@@ -16,14 +16,16 @@ print (
 
 
 # analyze a time frame out of the power consumption data
-rng <- 816:1007
+rng <- 816:1007 # תיחום זמנים לפי מספרי שורות
 
 # print the range of times in our slice
 print (B[rng, 'DateTime' ])
 
 C <- with(B, cbind( Net.generation.1, Net.generation.2, Net.generation.3, Net.generation.4,Net.generation.5, 
-                    Net.generation.6, Net.generation.7 , Net.generation.8 , Net.generation.9 , Net.generation.10  ))
-C <- C[rng, ]
+                    Net.generation.6, Net.generation.7 , Net.generation.8 , Net.generation.9 , Net.generation.10  )) # יצירת דאטא פריים חדש תוך סכימת העמודות הללו בלבד 
+# אומר לפתוח את בי ולבצע פעולות  with ה 
+
+C <- C[rng, ] # רק את השורות בטווח הנתון C לקחת מיתוך 
 print (C)
 
 
