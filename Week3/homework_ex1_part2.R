@@ -4,7 +4,7 @@ A$DateTime <- as.POSIXct( A$megawatthours, tz = "EST", "%H:%M EST %m/%d/%Y" )
 B <- A[ order(A$DateTime), ]
 
 
-# step 1 create data cube:
+# step 1 create data cube from data frame:
 
 BPAT_DF <- data.frame(year = format(B$DateTime,"%Y") ,month = format(B$DateTime,"%m"), day = format(B$DateTime,"%d") ,hour = format(B$DateTime,"%H") , location = "BPAT" ,damand  = B$Demand )
 CISO_DF <- data.frame(year = format(B$DateTime,"%Y") ,month = format(B$DateTime,"%m"), day = format(B$DateTime,"%d") ,hour = format(B$DateTime,"%H") , location = "CISO" ,damand  = B$Demand.1 )
@@ -17,10 +17,11 @@ NYIS_DF <- data.frame(year = format(B$DateTime,"%Y") ,month = format(B$DateTime,
 PACW_DF <- data.frame(year = format(B$DateTime,"%Y") ,month = format(B$DateTime,"%m"), day = format(B$DateTime,"%d") ,hour = format(B$DateTime,"%H") , location = "PACW" ,damand  = B$Demand.8 )
 PJM_DF <-  data.frame(year = format(B$DateTime,"%Y") ,month = format(B$DateTime,"%m"), day = format(B$DateTime,"%d") ,hour = format(B$DateTime,"%H") , location = "PJM"  ,damand  = B$Demand.9 )
 
-
+#union the row from all the data frame
 df_demand = rbind(BPAT_DF, CISO_DF, CPLE_DF, ERCO_DF, FPL_DF , ISNE_DF, MISO_DF, NYIS_DF, PACW_DF, PJM_DF )
 df_demand <- na.omit(df_demand) 
 
+# creat the data cube
 demand_cube <- tapply(df_demand$damand ,
                       df_demand[,c("year","month", "day","hour" ,"location")],
                       FUN = mean )
