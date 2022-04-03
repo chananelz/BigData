@@ -1,3 +1,5 @@
+#avishy alihi 
+#Chananel Zaguri 206275711
 A <- read.delim('Week3/table.tsv')
 A$DateTime <- as.POSIXct( A$megawatthours, tz = "EST", "%H:%M EST %m/%d/%Y" )
 
